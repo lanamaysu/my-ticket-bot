@@ -1,7 +1,7 @@
 {
-  "name": "my-little-tool",
-  "version": "0.0.0",
-  "description": "",
+  "name": "my-ticket-bot",
+  "version": "1.0.0",
+  "description": "update new ticket trading information to LINE using LINE Notify API & LINE Messaging API",
   "engines": {
     "node": "12.x"
   },
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://git.heroku.com/morning-depths-12408.git"
+    "url": "https://github.com/lanamaysu/my-ticket-bot.git"
   },
   "keywords": [
     "node",
