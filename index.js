@@ -26,6 +26,8 @@ app.post("/callback", line.middleware(config), (req, res) => {
     });
 });
 
+const searchRegex = /^查(.+)$/g;
+
 // event handler
 async function handleEvent(event) {
   if (event.type !== "message" || event.message.type !== "text") {
@@ -33,23 +35,41 @@ async function handleEvent(event) {
     return Promise.resolve(null);
   }
 
-  if (event.message.text.includes("查詢")) {
+  const userInput = event.message.text;
+
+  if (userInput.includes("查")) {
+    let result = [];
     try {
-      const pttCrawlerResult = await pttResult({
-        board: process.env.SEARCH_BOARD,
-        keyword: process.env.SEARCH_KEYWORD,
-      });
+      if (userInput === "查詢") {
+        result = await pttResult({
+          board: process.env.SEARCH_BOARD,
+          keyword: process.env.SEARCH_KEYWORD,
+        });
+      } else if (searchRegex.test(userInput)) {
+        const [all, keyword] = searchRegex.exec(userInput);
+        if (keyword && typeof keyword === "string") {
+          result = await pttResult({
+            board: process.env.SEARCH_BOARD,
+            keyword: keyword.trim(),
+          });
+        } else {
+          throw new Error("無法解析查詢文字");
+        }
+      } else {
+        throw new Error("無法解析查詢文字");
+      }
+
       const reply = {
         type: "text",
         text:
-          pttCrawlerResult && pttCrawlerResult.length
-            ? pttCrawlerResult.join(" \n ")
-            : "No Result.",
+          result && result.length ? pttCrawlerResult.join(" \n ") : "查無結果",
       };
       return client.replyMessage(event.replyToken, reply);
     } catch (error) {
       console.log(error);
-      return client.replyMessage(event.replyToken, "好像出了一點問題");
+      const errorMessage =
+        error && error.message ? error.message : "好像出了一點問題";
+      return client.replyMessage(event.replyToken, errorMessage);
     }
   }
 
