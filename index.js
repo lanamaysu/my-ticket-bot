@@ -37,10 +37,11 @@ const searchResult = async (userInput) => {
     return result;
   }
 
-  const searchRegex = /^查(.+)$/g;
+  const searchRegex = /^查(?<keyword>.+)$/g;
 
   if (searchRegex.test(userInput)) {
-    const [all, keyword] = searchRegex.exec(userInput);
+    const match = searchRegex.exec(userInput);
+    const keyword = match && match.groups ? match.groups.keyword : "";
     if (keyword && typeof keyword === "string") {
       result = await pttResult({
         board: process.env.SEARCH_BOARD,
@@ -75,9 +76,7 @@ async function handleEvent(event) {
       return client.replyMessage(event.replyToken, reply);
     } catch (error) {
       console.log(error);
-      const errorMessage =
-        error && error.message ? error.message.torString() : "好像出了一點問題";
-      return client.replyMessage(event.replyToken, errorMessage);
+      return client.replyMessage(event.replyToken, "好像出了一點問題");
     }
   }
 
