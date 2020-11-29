@@ -76,7 +76,7 @@ async function handleEvent(event) {
     } catch (error) {
       console.log(error);
       const errorMessage =
-        error && error.message ? error.message : "好像出了一點問題";
+        error && error.message ? error.message.torString() : "好像出了一點問題";
       return client.replyMessage(event.replyToken, errorMessage);
     }
   }
