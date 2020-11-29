@@ -43,7 +43,7 @@ async function handleEvent(event) {
         type: "text",
         text:
           pttCrawlerResult && pttCrawlerResult.length
-            ? pttCrawlerResult.join("\n")
+            ? pttCrawlerResult.join(" \n ")
             : "No Result.",
       };
       return client.replyMessage(event.replyToken, reply);

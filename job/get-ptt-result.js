@@ -6,26 +6,29 @@ const client = new line.Client({
 });
 
 (async () => {
-  const pttCrawlerResult = await pttResult({
-    board: process.env.SEARCH_BOARD,
-    keyword: process.env.SEARCH_KEYWORD,
-  });
-
-  if (!pttCrawlerResult.length) {
-    console.log("No result.");
-    return null;
-  }
-  const message = {
-    type: "text",
-    text: pttCrawlerResult.join(" \n "),
-  };
-
-  client
-    .pushMessage(process.env.LINE_USER_ID, message)
-    .then(() => {
-      console.log("done");
-    })
-    .catch((err) => {
-      console.log(err);
+  try {
+    const pttCrawlerResult = await pttResult({
+      board: process.env.SEARCH_BOARD,
+      keyword: process.env.SEARCH_KEYWORD,
     });
+
+    if (!pttCrawlerResult.length) {
+      throw new Error("No result.");
+    }
+    const message = {
+      type: "text",
+      text: pttCrawlerResult.join(" \n "),
+    };
+
+    client
+      .pushMessage(process.env.LINE_USER_ID, message)
+      .then(() => {
+        console.log("done");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (error) {
+    console.log(error);
+  }
 })();
