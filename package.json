@@ -12,7 +12,8 @@
   "dependencies": {
     "@line/bot-sdk": "^7.1.0",
     "@waynechang65/ptt-crawler": "^2.1.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "prettier": "2.2.1"

@@ -1,9 +1,5 @@
 const pttResult = require("../lib/crawler");
-const line = require("@line/bot-sdk");
-
-const client = new line.Client({
-  channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-});
+const fetch = require("node-fetch");
 
 (async () => {
   try {
@@ -15,19 +11,19 @@ const client = new line.Client({
     if (!pttCrawlerResult.length) {
       throw new Error("No result.");
     }
-    const message = {
-      type: "text",
-      text: pttCrawlerResult.join(" \n "),
-    };
 
-    client
-      .pushMessage(process.env.LINE_USER_ID, message)
-      .then(() => {
-        console.log("done");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const lineBreak = "%0D%0A";
+    const response = await fetch("https://notify-api.line.me/api/notify", {
+      method: "post",
+      body: `message=${lineBreak}${pttCrawlerResult.join(lineBreak)}`,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${process.env.LINE_NOTIFY_TOKEN}`,
+      },
+    });
+    const body = await response.text();
+
+    console.log(body);
   } catch (error) {
     console.log(error);
   }
