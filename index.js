@@ -28,15 +28,15 @@ app.post("/callback", line.middleware(config), (req, res) => {
 
 const searchRegex = /^查(.+)$/g;
 
-const searchResult = (userInput)=>{
-  let result = []
+const searchResult = async (userInput) => {
+  let result = [];
 
   if (userInput === "查詢") {
     result = await pttResult({
       board: process.env.SEARCH_BOARD,
       keyword: process.env.SEARCH_KEYWORD,
     });
-    return result
+    return result;
   }
 
   if (searchRegex.test(userInput)) {
@@ -46,14 +46,14 @@ const searchResult = (userInput)=>{
         board: process.env.SEARCH_BOARD,
         keyword: keyword.trim(),
       });
-      return result
+      return result;
     } else {
       throw new Error("無法解析查詢文字");
     }
   }
 
   throw new Error("無法解析查詢文字");
-}
+};
 
 // event handler
 async function handleEvent(event) {
@@ -66,7 +66,7 @@ async function handleEvent(event) {
 
   if (userInput.includes("查")) {
     try {
-      const result = searchResult(userInput)
+      const result = await searchResult(userInput);
 
       const reply = {
         type: "text",
