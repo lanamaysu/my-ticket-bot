@@ -61,8 +61,7 @@ async function handleEvent(event) {
 
       const reply = {
         type: "text",
-        text:
-          result && result.length ? pttCrawlerResult.join(" \n ") : "查無結果",
+        text: result.length ? result.join(" \n ") : "查無結果",
       };
       return client.replyMessage(event.replyToken, reply);
     } catch (error) {
