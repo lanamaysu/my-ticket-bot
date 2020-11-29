@@ -37,7 +37,7 @@ const searchResult = async (userInput) => {
     return result;
   }
 
-  const searchRegex = /^查(?<keyword>.+)$/g;
+  const searchRegex = /^查(?<keyword>.+)$/;
 
   if (searchRegex.test(userInput)) {
     const match = searchRegex.exec(userInput);
@@ -76,7 +76,12 @@ async function handleEvent(event) {
       return client.replyMessage(event.replyToken, reply);
     } catch (error) {
       console.log(error);
-      return client.replyMessage(event.replyToken, "好像出了一點問題");
+      const errorMessage =
+        error && error.message ? error.message.torString() : "好像出了一點問題";
+      return client.replyMessage(event.replyToken, {
+        type: "text",
+        text: errorMessage,
+      });
     }
   }
 
