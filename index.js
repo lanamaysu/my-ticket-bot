@@ -37,8 +37,10 @@ const searchResult = async (userInput) => {
     return result;
   }
 
+  const searchRegex = /^查(.+)$/g;
+
   if (searchRegex.test(userInput)) {
-    const [all, keyword] = /^查(.+)$/.exec(userInput);
+    const [all, keyword] = searchRegex.exec(userInput);
     if (keyword && typeof keyword === "string") {
       result = await pttResult({
         board: process.env.SEARCH_BOARD,
