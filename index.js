@@ -26,8 +26,6 @@ app.post("/callback", line.middleware(config), (req, res) => {
     });
 });
 
-const searchRegex = /^查(.+)$/g;
-
 const searchResult = async (userInput) => {
   let result = [];
 
@@ -40,7 +38,7 @@ const searchResult = async (userInput) => {
   }
 
   if (searchRegex.test(userInput)) {
-    const [all, keyword] = searchRegex.exec(userInput);
+    const [all, keyword] = /^查(.+)$/.exec(userInput);
     if (keyword && typeof keyword === "string") {
       result = await pttResult({
         board: process.env.SEARCH_BOARD,
