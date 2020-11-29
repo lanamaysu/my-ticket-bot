@@ -1,0 +1,28 @@
+{
+  "name": "my-little-tool",
+  "version": "0.0.0",
+  "description": "",
+  "engines": {
+    "node": "12.x"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@line/bot-sdk": "^7.1.0",
+    "@waynechang65/ptt-crawler": "^2.1.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "prettier": "2.2.1"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "keywords": [
+    "node",
+    "heroku"
+  ],
+  "license": "MIT"
+}
