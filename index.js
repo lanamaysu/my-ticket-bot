@@ -34,18 +34,23 @@ async function handleEvent(event) {
   }
 
   if (event.message.text.includes("查詢")) {
-    const pttCrawlerResult = await pttResult({
-      board: process.env.SEARCH_BOARD,
-      keyword: process.env.SEARCH_KEYWORD,
-    });
-    const reply = {
-      type: "text",
-      text:
-        pttCrawlerResult && pttCrawlerResult.length
-          ? pttCrawlerResult.join("\n")
-          : "No Result.",
-    };
-    return client.replyMessage(event.replyToken, reply);
+    try {
+      const pttCrawlerResult = await pttResult({
+        board: process.env.SEARCH_BOARD,
+        keyword: process.env.SEARCH_KEYWORD,
+      });
+      const reply = {
+        type: "text",
+        text:
+          pttCrawlerResult && pttCrawlerResult.length
+            ? pttCrawlerResult.join("\n")
+            : "No Result.",
+      };
+      return client.replyMessage(event.replyToken, reply);
+    } catch (error) {
+      console.log(error);
+      return client.replyMessage(event.replyToken, "好像出了一點問題");
+    }
   }
 
   // create a echoing text message
