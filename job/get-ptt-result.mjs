@@ -1,5 +1,5 @@
-const pttResult = require("../lib/crawler");
-const fetch = require("node-fetch");
+import fetch from "node-fetch";
+import pttResult from "../lib/crawler";
 
 (async () => {
   try {
